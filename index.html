@@ -4854,7 +4854,7 @@
         }
 
         document.addEventListener('click', () => {
-            if (themeChoiceModal && themeChoiceModal.classList.contains('active')) {
+            if (themeChoiceModal && !themeChoiceModal.classList.contains('hidden')) {
                 return;
             }
             closeAiBotDialog();
@@ -5071,4 +5071,8 @@
     </script>
 </body>
 </html>
+
+
+
+
 
