@@ -1360,11 +1360,18 @@
                 radial-gradient(circle at 80% 18%, rgba(255, 145, 64, 0.2), transparent 52%),
                 linear-gradient(135deg, rgba(3, 6, 14, 0.92), rgba(2, 4, 10, 0.95));
             backdrop-filter: blur(10px);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+            transition: opacity 0.4s ease, transform 0.45s ease, visibility 0.4s ease;
+        }
+
+        .theme-choice-modal.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transform: translateY(24px) scale(0.98);
-            transition: opacity 0.4s ease, transform 0.45s ease, visibility 0.4s ease;
         }
 
         .theme-choice-modal::before,
@@ -4747,11 +4754,6 @@
         const themeNavPrev = themeChoiceModal ? themeChoiceModal.querySelector('.theme-nav-prev') : null;
         const themeNavNext = themeChoiceModal ? themeChoiceModal.querySelector('.theme-nav-next') : null;
         let themeCarouselResizeTimer = null;
-        let themeChoiceHideTimer = null;
-
-        if (themeChoiceModal) {
-            themeChoiceModal.style.display = 'none';
-        }
 
         function focusThemeCard(theme, smooth = true) {
             if (!themeChoiceTrack) {
@@ -4805,14 +4807,7 @@
             if (!themeChoiceModal) {
                 return;
             }
-            if (themeChoiceHideTimer) {
-                clearTimeout(themeChoiceHideTimer);
-                themeChoiceHideTimer = null;
-            }
-            themeChoiceModal.style.display = 'flex';
-            requestAnimationFrame(() => {
-                themeChoiceModal.classList.add('active');
-            });
+            themeChoiceModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             if (themeChoiceTrack) {
                 themeChoiceTrack.scrollTo({
@@ -4833,17 +4828,9 @@
             if (!themeChoiceModal) {
                 return;
             }
-            themeChoiceModal.classList.remove('active');
+            themeChoiceModal.classList.add('hidden');
             document.body.style.overflow = 'auto';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (themeChoiceHideTimer) {
-                clearTimeout(themeChoiceHideTimer);
-            }
-            themeChoiceHideTimer = setTimeout(() => {
-                if (themeChoiceModal && !themeChoiceModal.classList.contains('active')) {
-                    themeChoiceModal.style.display = 'none';
-                }
-            }, 320);
         }
 
         if (aiBotButton) {
@@ -5084,3 +5071,4 @@
     </script>
 </body>
 </html>
+
